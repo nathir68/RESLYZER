@@ -9,8 +9,7 @@ from flask import Flask, request, jsonify, render_template
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import docx  # python-docx
-from PIL import Image
-import pytesseract
+import docx  # python-docx
 import webbrowser
 import threading
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -18,7 +17,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # --- Configuration ---
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
-UPLOAD_FOLDER = 'uploads'
+# Vercel uses a read-only filesystem except for /tmp
+UPLOAD_FOLDER = '/tmp' if os.environ.get('VERCEL') else 'uploads'
 
 app = Flask(__name__)
 CORS(app)
