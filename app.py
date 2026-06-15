@@ -170,8 +170,12 @@ def recommend():
     finally:
         if os.path.exists(filepath): os.remove(filepath)
 
+import urllib.parse
+
 @app.route('/job_details/<path:job_name>', methods=['GET'])
 def get_job_details(job_name):
+    # Decode job_name explicitly to handle Vercel's proxy URL encoding
+    job_name = urllib.parse.unquote(job_name)
     # Retrieve description and simple keywords for the Details page
     desc = JOB_DESCRIPTIONS.get(job_name, "")
     req_skills = [s for s in SKILL_KEYWORDS if s.lower() in desc.lower()]
